@@ -4,8 +4,6 @@ public class WebServices {
 
 
     public static String URL_GetMasjed = "https://madinahhost2020.com/DalelMasjed/API/GetMasjed.php";
-
-
-    public static String URL_Addcomment;
-    public static String URL_Getcomment;
+    public static String URL_Addcomment="https://madinahhost2020.com/DalelMasjed/API/AddComment.php";
+    public static String URL_Getcomment = "https://madinahhost2020.com/DalelMasjed/API/getcomment.php";
 }
