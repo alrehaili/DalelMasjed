@@ -55,9 +55,7 @@ public class Comments extends AppCompatActivity {
 
         commentAdapter = new CommentAdapter(this, commentList);
         listView.setAdapter(commentAdapter);
-
         getcomment(MasjedId);
-
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,10 +66,8 @@ public class Comments extends AppCompatActivity {
                     AddComment(   MasjedId ,  editText.getText().toString());
                     editText.setText("");
                 }
-
             }
         });
-
 
     }
 
@@ -79,11 +75,11 @@ public class Comments extends AppCompatActivity {
     {
 
         // Tag used to cancel the request
-        String tag_string_req = "req_login";
+        String tag_string_req = "req_addComment";
         StringRequest strReq = new StringRequest(Request.Method.POST, WebServices.URL_Addcomment, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Log.d(TAG, "Login Response: " + response);
+                Log.d(TAG, "Add Comment Response: " + response);
 
                 try {
                     JSONObject jObj = new JSONObject(response);
@@ -114,7 +110,7 @@ public class Comments extends AppCompatActivity {
             protected Map<String, String> getParams() {
                 // Posting parameters to login url
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("MasjedID", String.valueOf(MasjedID));
+                params.put("MasjedId", String.valueOf(MasjedID));
                 params.put("Note", Note);
                 return params;
             }
@@ -127,7 +123,7 @@ public class Comments extends AppCompatActivity {
 
     private void getcomment(final int MasjedId) {
         // Tag used to cancel the request
-        String tag_string_req = "req_login";
+        String tag_string_req = "req_getComment";
         StringRequest strReq = new StringRequest(Request.Method.POST, WebServices.URL_Getcomment, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -151,6 +147,8 @@ public class Comments extends AppCompatActivity {
                             commentList.add(comment);
                         }
 
+                        commentAdapter.notifyDataSetChanged();
+
                     }
                 } catch (JSONException e) {
                     // JSON error
@@ -162,7 +160,7 @@ public class Comments extends AppCompatActivity {
 
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e(TAG, "Login Error: " + error.getMessage());
+                Log.e(TAG, "Get Comment Error: " + error.getMessage());
             }
         }) {
             @Override

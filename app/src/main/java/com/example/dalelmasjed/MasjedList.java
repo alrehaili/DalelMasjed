@@ -59,8 +59,7 @@ public class MasjedList extends AppCompatActivity {
                 Toast.makeText(getApplicationContext() , MasjedList.get(i).getName() , Toast.LENGTH_SHORT).show();
 
                 Intent intent = new Intent(getApplicationContext() , Comments.class);
-                intent.putExtra("MasjedId" , 0);
-
+                intent.putExtra("MasjedId" , MasjedList.get(i).getMasjed_Id());
                 startActivity(intent);
 
             }
@@ -74,11 +73,11 @@ public class MasjedList extends AppCompatActivity {
 
     private void GetMasjed(final String region) {
 
-        String tag_string_req = "req_login";
+        String tag_string_req = "req_getMasjed";
         StringRequest strReq = new StringRequest(Request.Method.POST , WebServices.URL_GetMasjed, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Log.d(TAG, " Response: " + response);
+                Log.d(TAG, "Get Masjed Response: " + response);
 
                 try {
                     JSONObject jObj = new JSONObject(response);
@@ -96,6 +95,7 @@ public class MasjedList extends AppCompatActivity {
                             m.setName(MsjdObject.getString("name"));
                             m.setRating(MsjdObject.getDouble("rating"));
                             m.setCapacity(MsjdObject.getInt("Capacity"));
+                            m.setMasjed_Id(MsjdObject.getInt("MasjedId"));
 
                             if (MsjdObject.getInt("womensec")  == 1) {
                                 m.setWomensec(true);
@@ -125,7 +125,6 @@ public class MasjedList extends AppCompatActivity {
                                 m.setJumaah(false);
                             }
 
-
                             MasjedList.add(m);
                         }
 
@@ -139,7 +138,7 @@ public class MasjedList extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e(TAG, " Error: " + error.getMessage());
+                Log.e(TAG, " Get Masjed Error: " + error.getMessage());
             }
         }
         ) {
